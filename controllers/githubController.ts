@@ -11,7 +11,9 @@ const searchRepositories = async (
 ): Promise<void> => {
   try {
     const repoName =
-      typeof req.query.name === 'string' ? req.query.name : undefined;
+      typeof req.query.name === 'string' && req.query.name.trim() !== ''
+        ? req.query.name
+        : undefined;
 
     if (!repoName) {
       throw new ApiError('Repository name is required', 400);
@@ -27,14 +29,24 @@ const searchRepositories = async (
 
     const repositories = await Promise.all(
       githubResponse.data.items.map(async (repo) => {
-        const readmeContent = await getReadme(repo.owner.login, repo.name);
-        return {
-          name: repo.name,
-          forks: repo.forks_count,
-          open_issues: repo.open_issues_count,
-          url: repo.owner.html_url,
-          readme: readmeContent || 'README not found',
-        };
+        try {
+          const readmeContent = await getReadme(repo.owner.login, repo.name);
+          return {
+            name: repo.name,
+            forks: repo.forks_count,
+            open_issues: repo.open_issues_count,
+            url: repo.owner.html_url,
+            readme: readmeContent || 'README not found',
+          };
+        } catch (error) {
+          return {
+            name: repo.name,
+            forks: repo.forks_count,
+            open_issues: repo.open_issues_count,
+            url: repo.owner.html_url,
+            readme: 'Failed to fetch README',
+          };
+        }
       })
     );
 

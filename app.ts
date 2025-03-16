@@ -1,12 +1,11 @@
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
-import bodyParser from 'body-parser';
 import getGithubDetails from './routes/githubRoutes.js';
 import cors from 'cors';
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use(cors());
 

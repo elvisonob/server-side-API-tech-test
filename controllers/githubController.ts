@@ -1,23 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import getReadme from '../helper/getReadMe.js';
 import axios from 'axios';
-import ApiError from '../models/http-error';
-
-interface GitHubRepo {
-  name: string;
-  forks_count: number;
-  open_issues_count: number;
-  html_url: string;
-  owner: {
-    login: string;
-    html_url: string;
-  };
-  readme?: string;
-}
-
-interface GitHubApiResponse {
-  items: GitHubRepo[];
-}
+import ApiError from '../models/http-error.js';
+import { GitHubRepositorySearchResult } from '../types/github.js';
 
 const userName = async (
   req: Request,
@@ -32,7 +17,7 @@ const userName = async (
       throw new ApiError('Repository name is require', 400);
     }
 
-    const githubResponse = await axios.get<GitHubApiResponse>(
+    const githubResponse = await axios.get<GitHubRepositorySearchResult>(
       `https://api.github.com/search/repositories?q=${repoName}`
     );
 

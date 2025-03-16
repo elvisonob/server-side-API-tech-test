@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
-import getGithubDetails from './routes/route.js';
+import getGithubDetails from './routes/githubRoutes.js';
 import cors from 'cors';
 
 const app = express();

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ApiError from '../models/http-error.js';
 
 const getReadMe = async (repoOwner: string, repoName: string) => {
   try {
@@ -11,14 +12,14 @@ const getReadMe = async (repoOwner: string, repoName: string) => {
         'utf-8'
       );
     }
-    return 'README not found';
+    throw new ApiError('README not found', 404);
   } catch (error: any) {
     if (error.response && error.response.status === 404) {
-      return 'README not found';
+      throw new ApiError('README not found', 404);
     } else if (error.response && error.response.status === 403) {
-      return 'Rate limit exceeded. Try again later.';
+      throw new ApiError('Rate limit exceeded. Try again later.', 403);
     }
-    return 'Error fetching README';
+    throw new ApiError('Error fetching README', 500);
   }
 };
 

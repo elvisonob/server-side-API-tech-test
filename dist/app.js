@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import getGithubDetails from './routes/route.js';
+import getGithubDetails from './routes/githubRoutes.js';
 import cors from 'cors';
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));

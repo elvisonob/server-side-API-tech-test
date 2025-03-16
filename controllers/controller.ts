@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import getReadme from '../helper/getReadMe.js';
 import axios from 'axios';
+import ApiError from '../models/http-error';
 
 interface GitHubRepo {
   name: string;
@@ -28,13 +29,16 @@ const userName = async (
       typeof req.query.name === 'string' ? req.query.name : undefined;
 
     if (!repoName) {
-      res.status(400).json({ error: 'Repository name is required' });
-      return;
+      throw new ApiError('Repository name is require', 400);
     }
 
     const githubResponse = await axios.get<GitHubApiResponse>(
       `https://api.github.com/search/repositories?q=${repoName}`
     );
+
+    if (!githubResponse.data.items.length) {
+      throw new ApiError('No repositories found', 404);
+    }
 
     const repositories = await Promise.all(
       githubResponse.data.items.map(async (repo) => {
@@ -51,10 +55,7 @@ const userName = async (
 
     res.status(200).json(repositories);
   } catch (error) {
-    res.status(500).json({
-      error: 'Failed to fetch data from GitHub',
-      details: (error as Error).message,
-    });
+    next(new ApiError('Failed to fetch data from GitHub', 500));
   }
 };
 

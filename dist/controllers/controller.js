@@ -14,6 +14,7 @@ const userName = async (req, res, next) => {
                 name: repo.name,
                 forks: repo.forks_count,
                 open_issues: repo.open_issues_count,
+                url: repo.owner.html_url,
                 readme: readmeContent || 'README not found',
             };
         }));

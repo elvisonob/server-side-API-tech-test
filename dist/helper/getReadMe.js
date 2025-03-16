@@ -9,7 +9,7 @@ const getReadMe = async (repoOwner, repoName) => {
     }
     catch (error) {
         if (error.response && error.response.status === 404) {
-            return 'README not found'; // Handle missing README properly
+            return 'README not found';
         }
         else if (error.response && error.response.status === 403) {
             return 'Rate limit exceeded. Try again later.';

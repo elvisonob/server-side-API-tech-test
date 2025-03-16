@@ -29,24 +29,14 @@ const searchRepositories = async (
 
     const repositories = await Promise.all(
       githubResponse.data.items.map(async (repo) => {
-        try {
-          const readmeContent = await getReadme(repo.owner.login, repo.name);
-          return {
-            name: repo.name,
-            forks: repo.forks_count,
-            open_issues: repo.open_issues_count,
-            url: repo.owner.html_url,
-            readme: readmeContent || 'README not found',
-          };
-        } catch (error) {
-          return {
-            name: repo.name,
-            forks: repo.forks_count,
-            open_issues: repo.open_issues_count,
-            url: repo.owner.html_url,
-            readme: 'Failed to fetch README',
-          };
-        }
+        const readmeContent = await getReadme(repo.owner.login, repo.name);
+        return {
+          name: repo.name,
+          forks: repo.forks_count,
+          open_issues: repo.open_issues_count,
+          url: repo.owner.html_url,
+          readme: readmeContent || 'README not found',
+        };
       })
     );
 

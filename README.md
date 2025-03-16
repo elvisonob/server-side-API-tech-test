@@ -1,15 +1,15 @@
-This is a Node.js service that uses the GitHub API to allow users to query repositories by name, fetch repository details, and retrieve README files.
+# 🚀 GitHub Repository Query Service
+
+This is a **Node.js service** that interacts with the **GitHub API** to allow users to:
+
+- Search for repositories by name.
+- Fetch repository details (forks, open issues, owner URL, and README content).
+- Handle API requests efficiently with best practices.
+- Built using **Express.js** and **Axios** for API handling.
 
 The server is set on port 8080 and the query link for postman is below:
 
-`http://localhost:8080/api/github/repositories?name=${githubusername}`
-
-## Features
-
-- Search for GitHub repositories by name.
-- Retrieve repository details such as forks, open issues, url, and README content.
-- Built using **Express.js** and **Axios** for API handling.
-- Implements error handling and best practices.
+GET http://localhost:8080/api/github/repositories?name=elvisonob
 
 ## 🚀 Potential Enhancements
 

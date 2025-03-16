@@ -14,7 +14,7 @@ const userName = async (
       typeof req.query.name === 'string' ? req.query.name : undefined;
 
     if (!repoName) {
-      throw new ApiError('Repository name is require', 400);
+      throw new ApiError('Repository name is required', 400);
     }
 
     const githubResponse = await axios.get<GitHubRepositorySearchResult>(
@@ -40,7 +40,10 @@ const userName = async (
 
     res.status(200).json(repositories);
   } catch (error) {
-    next(new ApiError('Failed to fetch data from GitHub', 500));
+    res.status(500).json({
+      error: 'Failed to fetch data from Github',
+      details: error.message,
+    });
   }
 };
 

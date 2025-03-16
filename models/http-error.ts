@@ -3,6 +3,7 @@ class ApiError extends Error {
   constructor(message: string, errorCode: number) {
     super(message);
     this.code = errorCode;
+    this.name = 'ApiError';
   }
 }
 

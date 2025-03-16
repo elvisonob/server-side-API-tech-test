@@ -4,7 +4,7 @@ import axios from 'axios';
 import ApiError from '../models/http-error.js';
 import { GitHubRepositorySearchResult } from '../types/github.js';
 
-const userName = async (
+const searchRepositories = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -39,12 +39,14 @@ const userName = async (
     );
 
     res.status(200).json(repositories);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Failed to fetch data from GitHub',
-      details: error.message,
-    });
+  } catch (error: any) {
+    next(
+      new ApiError(
+        error.message || 'Failed to fetch data from GitHub',
+        error.response?.status || 500
+      )
+    );
   }
 };
 
-export default userName;
+export default searchRepositories;

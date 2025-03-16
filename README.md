@@ -11,10 +11,9 @@ The server is set on port 8080 and the query link for postman is below:
 - Built using **Express.js** and **Axios** for API handling.
 - Implements error handling and best practices.
 
-## 🔥 Future Improvements
+## 🚀 Potential Enhancements
 
-- **Implementing Rate Limiting**:  
-  Currently, the API does not enforce rate-limiting. In the future, I plan to:
-  - Introduce request limits using `express-rate-limit` to prevent excessive API calls.
-  - Optimize rate-limiting to avoid blocking legitimate users while ensuring fair usage.
-  - Consider caching mechanisms (like Redis) to reduce repeated API calls and improve performance.
+While the API is fully functional, future iterations could include:
+
+- **Rate Limiting Optimization**: Implementing advanced request limiting to prevent excessive API calls.
+- **Caching Mechanism**: Using Redis or in-memory caching to reduce redundant GitHub API requests.

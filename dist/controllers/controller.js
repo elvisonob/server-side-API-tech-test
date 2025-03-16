@@ -1,3 +1,4 @@
+import getReadme from '../helper/getReadMe.js';
 import axios from 'axios';
 const userName = async (req, res, next) => {
     try {
@@ -7,11 +8,15 @@ const userName = async (req, res, next) => {
             return;
         }
         const githubResponse = await axios.get(`https://api.github.com/search/repositories?q=${repoName}`);
-        const repositories = githubResponse.data.items.map((repo) => ({
-            name: repo.name,
-            forks: repo.forks_count,
-            open_issues: repo.open_issues_count,
-            html_url: repo.html_url,
+        const repositories = await Promise.all(githubResponse.data.items.map(async (repo) => {
+            const readmeContent = await getReadme(repo.owner.login, repo.name);
+            return {
+                name: repo.name,
+                forks: repo.forks_count,
+                open_issues: repo.open_issues_count,
+                url: repo.html_url,
+                readme: readmeContent || 'README not found',
+            };
         }));
         res.status(200).json(repositories);
     }

@@ -3,7 +3,7 @@ import axios from 'axios';
 const getReadMe = async (repoOwner: string, repoName: string) => {
   try {
     const readmeResponse = await axios.get(
-      `http://api.github.com/repos/${repoOwner}/${repoName}/contents/README.md`
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/README.md`
     );
 
     if (readmeResponse.data.content) {
@@ -11,9 +11,9 @@ const getReadMe = async (repoOwner: string, repoName: string) => {
         'utf-8'
       );
     }
-    return null;
-  } catch (error) {
-    return null;
+    return 'README not found';
+  } catch (error: any) {
+    return 'Error fetching README';
   }
 };
 

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import getGithubDetails from './routes/githubRoutes.js';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -10,7 +11,18 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-app.use('/api/github', getGithubDetails);
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 50,
+  message: {
+    error: 'Too many requests',
+    message: 'You have exceeded the request limit. Please try again later.',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/api/github', limiter, getGithubDetails);
 
 app.use((req, res) => {
   res.status(404).json({

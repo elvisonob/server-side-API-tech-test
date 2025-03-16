@@ -41,7 +41,7 @@ const userName = async (
     res.status(200).json(repositories);
   } catch (error) {
     res.status(500).json({
-      error: 'Failed to fetch data from Github',
+      error: 'Failed to fetch data from GitHub',
       details: error.message,
     });
   }

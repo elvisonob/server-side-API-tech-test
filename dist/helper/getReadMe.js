@@ -15,6 +15,10 @@ const getReadMe = async (repoOwner, repoName) => {
         else if (error.response && error.response.status === 403) {
             throw new ApiError('Rate limit exceeded. Try again later.', 403);
         }
+        else if (error.response && error.response.status === 429) {
+            // Explicit rate limit exceeded
+            throw new ApiError('Rate limit exceeded. Try again later.', 429);
+        }
         throw new ApiError('Error fetching README', 500);
     }
 };

@@ -14,12 +14,18 @@ const getReadMe = async (repoOwner: string, repoName: string) => {
     }
     throw new ApiError('README not found', 404);
   } catch (error: any) {
-    if (error.response && error.response.status === 404) {
+    const statusCode = error.response?.status;
+    const errorMessage = error.message || 'Error fetching README';
+
+    if (statusCode === 404) {
       throw new ApiError('README not found', 404);
-    } else if (error.response && error.response.status === 403) {
+    }
+
+    if (statusCode === 403) {
       throw new ApiError('Rate limit exceeded. Try again later.', 403);
     }
-    throw new ApiError('Error fetching README', 500);
+
+    throw new ApiError(errorMessage, statusCode || 500);
   }
 };
 

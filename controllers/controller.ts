@@ -9,6 +9,7 @@ interface GitHubRepo {
   html_url: string;
   owner: {
     login: string;
+    html_url: string;
   };
   readme?: string;
 }
@@ -42,7 +43,7 @@ const userName = async (
           name: repo.name,
           forks: repo.forks_count,
           open_issues: repo.open_issues_count,
-          url: repo.html_url,
+          url: repo.owner.html_url,
           readme: readmeContent || 'README not found',
         };
       })

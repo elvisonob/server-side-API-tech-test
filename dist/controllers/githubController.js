@@ -3,7 +3,9 @@ import axios from 'axios';
 import ApiError from '../models/http-error.js';
 const searchRepositories = async (req, res, next) => {
     try {
-        const repoName = typeof req.query.name === 'string' ? req.query.name : undefined;
+        const repoName = typeof req.query.name === 'string' && req.query.name.trim() !== ''
+            ? req.query.name
+            : undefined;
         if (!repoName) {
             throw new ApiError('Repository name is required', 400);
         }

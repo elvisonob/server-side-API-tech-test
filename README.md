@@ -11,6 +11,16 @@ The server is set on port 8080 and the query link for postman is below:
 
 GET http://localhost:8080/api/github/repositories?name=elvisonob
 
+<h1>Setup</h1>
+Please Fork this repository
+<br>
+Clone the forked repository onto your local machine
+<br>
+In the root directory, type `npm install`, which installs dependencies for the project
+<br>
+Finally, type `npm start` to get the Server started.
+<br>
+
 ## 🚀 Potential Enhancements
 
 While the API is fully functional, future iterations could include:

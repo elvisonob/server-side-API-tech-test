@@ -1,7 +1,7 @@
 import getReadme from '../helper/getReadMe.js';
 import axios from 'axios';
 import ApiError from '../models/http-error.js';
-const userName = async (req, res, next) => {
+const searchRepositories = async (req, res, next) => {
     try {
         const repoName = typeof req.query.name === 'string' ? req.query.name : undefined;
         if (!repoName) {
@@ -24,10 +24,7 @@ const userName = async (req, res, next) => {
         res.status(200).json(repositories);
     }
     catch (error) {
-        res.status(500).json({
-            error: 'Failed to fetch data from GitHub',
-            details: error.message,
-        });
+        next(new ApiError(error.message || 'Failed to fetch data from GitHub', error.response?.status || 500));
     }
 };
-export default userName;
+export default searchRepositories;
